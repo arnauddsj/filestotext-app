@@ -10,20 +10,7 @@ import openpyxl
 from docx import Document
 import PyPDF2
 
-VERSION = "0.0.1"
-# VERSION_URL = "https://example.com/version.txt"  # Commented out
-
-# class VersionCheckerThread(QThread):
-#     version_checked = pyqtSignal(str)
-#
-#     def run(self):
-#         try:
-#             response = requests.get(VERSION_URL, timeout=5)
-#             if response.status_code == 200:
-#                 latest_version = response.text.strip()
-#                 self.version_checked.emit(latest_version)
-#         except:
-#             pass  # Silently fail if unable to check version
+VERSION = "0.1"
 
 class ClearableLineEdit(QWidget):
     def __init__(self, parent=None):
@@ -47,7 +34,6 @@ class FileProcessorApp(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        # self.check_version()  # Commented out
         
         app_dir = self.get_app_root_dir()
         self.input_edit.setText(app_dir)
@@ -119,21 +105,6 @@ class FileProcessorApp(QWidget):
         self.setWindowTitle('File Processor')
         self.setGeometry(300, 300, 500, 400)
 
-    # def check_version(self):
-    #     self.version_thread = VersionCheckerThread()
-    #     self.version_thread.version_checked.connect(self.on_version_checked)
-    #     self.version_thread.start()
-
-    # def on_version_checked(self, latest_version):
-    #     if latest_version > VERSION:
-    #         msg = QMessageBox()
-    #         msg.setIcon(QMessageBox.Information)
-    #         msg.setText("A new version is available!")
-    #         msg.setInformativeText(f"Current version: {VERSION}\nLatest version: {latest_version}")
-    #         msg.setWindowTitle("Update Available")
-    #         msg.setStandardButtons(QMessageBox.Ok)
-    #         msg.exec_()
-
     def select_input_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Input Folder")
         if folder:
@@ -182,13 +153,27 @@ class FileProcessorApp(QWidget):
 
     def get_file_paths(self, start_path, ignore_files, ignore_dirs):
         file_paths = []
+        app_path = self.get_app_path()
         for root, dirs, files in os.walk(start_path, topdown=True):
+            # Exclude the app's own directory and its contents
+            if app_path:
+                rel_path = os.path.relpath(root, start_path)
+                if rel_path.startswith('filestotext.app'):
+                    continue
             dirs[:] = [d for d in dirs if d not in ignore_dirs]
             for file in files:
                 if not any(fnmatch.fnmatch(file, pattern) for pattern in ignore_files):
                     full_path = os.path.join(root, file)
                     file_paths.append(full_path)
         return file_paths
+
+    def get_app_path(self):
+        if getattr(sys, 'frozen', False):
+            # The application is frozen (bundled)
+            return os.path.dirname(sys.executable)
+        else:
+            # The application is not frozen (running from source)
+            return None
 
     def write_to_txt(self, output_path, file_paths):
         processed_count = 0
