@@ -1,6 +1,6 @@
 # Files to text App
 
-File Processor is a Python application that combines the content of all files present in a specified folder into a single .txt document. This tool is useful for creating a consolidated view of your project's files, making it easier to feed your codebase into AI or for other analysis purposes.
+Files to text App is a Python application that combines the content of all files present in a specified folder into a single .txt document. This tool is useful for creating a consolidated view of your project's files, making it easier to feed your codebase into AI or for other analysis purposes.
 
 ## Features
 
@@ -22,8 +22,8 @@ File Processor is a Python application that combines the content of all files pr
 
 1. Clone this repository or download the script:
    ```
-   git clone https://github.com/yourusername/file-processor.git
-   cd file-processor
+   git clone https://github.com/yourusername/filestotext-app.git
+   cd filestotext-app
    ```
 
 2. Create a virtual environment (optional but recommended):
@@ -58,7 +58,7 @@ To create a standalone .app file on macOS:
 
 1. Open Terminal and navigate to the directory containing your Python script:
    ```
-   cd /path/to/your/file-processor
+   cd /path/to/your/filestotext-app
    ```
 
 2. Run PyInstaller with the following command:
