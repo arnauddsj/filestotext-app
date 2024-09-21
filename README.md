@@ -1,4 +1,4 @@
-# File Processor
+# Files to text App
 
 File Processor is a Python application that combines the content of all files present in a specified folder into a single .txt document. This tool is useful for creating a consolidated view of your project's files, making it easier to feed your codebase into AI or for other analysis purposes.
 
