@@ -51,6 +51,7 @@ class FileProcessorApp(QWidget):
         
         app_dir = self.get_app_root_dir()
         self.input_edit.setText(app_dir)
+        self.update_output_placeholder(app_dir)
 
     def get_app_root_dir(self):
         if getattr(sys, 'frozen', False):
@@ -73,6 +74,7 @@ class FileProcessorApp(QWidget):
         # Input folder selection
         input_layout = QHBoxLayout()
         self.input_edit = QLineEdit()
+        self.input_edit.setToolTip(self.input_edit.text())
         input_button = QPushButton("Select Input Folder")
         input_button.clicked.connect(self.select_input_folder)
         input_layout.addWidget(QLabel("Input Folder:"))
@@ -83,6 +85,8 @@ class FileProcessorApp(QWidget):
         # Output folder selection
         output_layout = QHBoxLayout()
         self.output_edit = QLineEdit()
+        self.output_edit.setPlaceholderText("Same as input folder")
+        self.output_edit.setToolTip(self.output_edit.placeholderText())
         output_button = QPushButton("Select Output Folder")
         output_button.clicked.connect(self.select_output_folder)
         output_layout.addWidget(QLabel("Output Folder:"))
@@ -93,12 +97,12 @@ class FileProcessorApp(QWidget):
         # Ignore patterns
         layout.addWidget(QLabel("Ignore Files (comma-separated):"))
         self.ignore_files_edit = ClearableLineEdit()
-        self.ignore_files_edit.setText("*.log,*.tmp,*.cache,.DS_Store,*.py,.env,package-lock.json,*.svg,*.ico")
+        self.ignore_files_edit.setText("*.log,*.tmp,*.cache,.DS_Store,Thumbs.db,.env,.env.*,package-lock.json,*.svg,*.ico,*.lock,pnpm-lock.yaml,yarn.lock,*.pyc,*.pyo,*.egg-info,.python-version,Gemfile.lock,.ruby-version,composer.lock,go.sum")
         layout.addWidget(self.ignore_files_edit)
 
         layout.addWidget(QLabel("Ignore Directories (comma-separated):"))
         self.ignore_dirs_edit = ClearableLineEdit()
-        self.ignore_dirs_edit.setText("node_modules,build,dist,migrations,venv,.git")
+        self.ignore_dirs_edit.setText("node_modules,build,dist,venv,.git,.svn,.hg,.idea,.vscode,tmp,temp,logs,coverage,__pycache__,.pytest_cache,.mypy_cache,vendor,.bundle,public/assets,public/packs,public/system,bin,pkg")
         layout.addWidget(self.ignore_dirs_edit)
 
         # Process button
@@ -134,11 +138,18 @@ class FileProcessorApp(QWidget):
         folder = QFileDialog.getExistingDirectory(self, "Select Input Folder")
         if folder:
             self.input_edit.setText(folder)
+            self.input_edit.setToolTip(folder)
+            self.update_output_placeholder(folder)
 
     def select_output_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Output Folder")
         if folder:
             self.output_edit.setText(folder)
+            self.output_edit.setToolTip(folder)
+
+    def update_output_placeholder(self, folder):
+        self.output_edit.setPlaceholderText(folder)
+        self.output_edit.setToolTip(folder)
 
     def process_files(self):
         input_folder = self.input_edit.text()
