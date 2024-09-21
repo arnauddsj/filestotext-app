@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['file-processor-gui.py'],
+    ['filestotext.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -21,7 +21,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='file-processor-gui',
+    name='filestotext',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -40,11 +40,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='file-processor-gui',
+    name='filestotext',
 )
 app = BUNDLE(
     coll,
-    name='file-processor-gui.app',
+    name='filestotext.app',
     icon=None,
     bundle_identifier=None,
 )

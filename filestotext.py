@@ -10,20 +10,20 @@ import openpyxl
 from docx import Document
 import PyPDF2
 
-VERSION = "1.2.0"
-VERSION_URL = "https://example.com/version.txt"
+VERSION = "0.0.1"
+# VERSION_URL = "https://example.com/version.txt"  # Commented out
 
-class VersionCheckerThread(QThread):
-    version_checked = pyqtSignal(str)
-
-    def run(self):
-        try:
-            response = requests.get(VERSION_URL, timeout=5)
-            if response.status_code == 200:
-                latest_version = response.text.strip()
-                self.version_checked.emit(latest_version)
-        except:
-            pass  # Silently fail if unable to check version
+# class VersionCheckerThread(QThread):
+#     version_checked = pyqtSignal(str)
+#
+#     def run(self):
+#         try:
+#             response = requests.get(VERSION_URL, timeout=5)
+#             if response.status_code == 200:
+#                 latest_version = response.text.strip()
+#                 self.version_checked.emit(latest_version)
+#         except:
+#             pass  # Silently fail if unable to check version
 
 class ClearableLineEdit(QWidget):
     def __init__(self, parent=None):
@@ -47,7 +47,20 @@ class FileProcessorApp(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.check_version()
+        # self.check_version()  # Commented out
+        
+        app_dir = self.get_app_root_dir()
+        self.input_edit.setText(app_dir)
+
+    def get_app_root_dir(self):
+        if getattr(sys, 'frozen', False):
+            # The application is frozen (bundled)
+            app_path = sys.executable
+            # Go up three levels to get the directory containing the .app
+            return os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(app_path))))
+        else:
+            # The application is not frozen (running from source)
+            return os.path.dirname(os.path.abspath(__file__))
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -102,20 +115,20 @@ class FileProcessorApp(QWidget):
         self.setWindowTitle('File Processor')
         self.setGeometry(300, 300, 500, 400)
 
-    def check_version(self):
-        self.version_thread = VersionCheckerThread()
-        self.version_thread.version_checked.connect(self.on_version_checked)
-        self.version_thread.start()
+    # def check_version(self):
+    #     self.version_thread = VersionCheckerThread()
+    #     self.version_thread.version_checked.connect(self.on_version_checked)
+    #     self.version_thread.start()
 
-    def on_version_checked(self, latest_version):
-        if latest_version > VERSION:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Information)
-            msg.setText("A new version is available!")
-            msg.setInformativeText(f"Current version: {VERSION}\nLatest version: {latest_version}")
-            msg.setWindowTitle("Update Available")
-            msg.setStandardButtons(QMessageBox.Ok)
-            msg.exec_()
+    # def on_version_checked(self, latest_version):
+    #     if latest_version > VERSION:
+    #         msg = QMessageBox()
+    #         msg.setIcon(QMessageBox.Information)
+    #         msg.setText("A new version is available!")
+    #         msg.setInformativeText(f"Current version: {VERSION}\nLatest version: {latest_version}")
+    #         msg.setWindowTitle("Update Available")
+    #         msg.setStandardButtons(QMessageBox.Ok)
+    #         msg.exec_()
 
     def select_input_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Input Folder")

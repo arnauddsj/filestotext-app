@@ -22,7 +22,7 @@ Files to text App is a Python application that combines the content of all files
 
 1. Clone this repository or download the script:
    ```
-   git clone https://github.com/yourusername/filestotext-app.git
+   git clone https://github.com/arnauddsj/filestotext-app.git
    cd filestotext-app
    ```
 
@@ -42,7 +42,7 @@ Files to text App is a Python application that combines the content of all files
 Run the script using Python:
 
 ```
-python file-processor-gui.py
+python filestotext.py
 ```
 
 The application will open with a graphical interface. From there, you can:
@@ -63,7 +63,7 @@ To create a standalone .app file on macOS:
 
 2. Run PyInstaller with the following command:
    ```
-   pyinstaller --onefile --windowed file-processor-gui.py
+   pyinstaller --onefile --windowed filestotext.py
    ```
 
 3. Once the process completes, you'll find your .app file in the `dist` directory.
