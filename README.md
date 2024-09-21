@@ -77,6 +77,16 @@ The application allows you to configure the following settings through the GUI:
 - Ignore Files: Comma-separated list of file patterns to ignore
 - Ignore Directories: Comma-separated list of directory names to ignore
 
+## Default Ignore List
+
+The application comes with a default list of files and directories to ignore. This list covers common patterns for JavaScript, Python, Ruby/Rails, PHP, and Go projects, as well as general development artifacts.
+
+**Ignored Directories:** node_modules, build, dist, .git, .svn, .hg, .idea, .vscode, tmp, temp, logs, coverage, venv, env, __pycache__, .pytest_cache, .mypy_cache, vendor, .bundle, public/assets, public/packs, public/system, bin, pkg
+
+**Ignored Files:** *.log, *.tmp, *.cache, .DS_Store, Thumbs.db, .env, .env.*, package-lock.json, *.svg, *.ico, *.lock, pnpm-lock.yaml, yarn.lock, *.pyc, *.pyo, *.egg-info, .python-version, Gemfile.lock, .ruby-version, composer.lock, go.sum
+
+You can modify these lists in the application's GUI to suit your specific needs.
+
 ## Output
 
 The output .txt file will contain the content of all processed files, with each file's content preceded by its path:
