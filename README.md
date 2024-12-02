@@ -10,43 +10,51 @@ Files to text App is a Python application that combines the content of all files
 - Allows skipping specific files and directories
 - Supports various file formats including text, CSV, Excel, Word, and PDF
 
-## Requirements
 
-- Python 3.6+
-- PyQt5
-- openpyxl
-- python-docx
-- PyPDF2
+## Requirements
+* Python 3.9+ (recommended for Apple Silicon compatibility)
+* PyQt5
+* openpyxl
+* python-docx
+* PyPDF2
+* requests
 
 ## Installation
 
 1. Clone this repository or download the script:
-   ```
-   git clone https://github.com/arnauddsj/filestotext-app.git
-   cd filestotext-app
-   ```
+```bash
+git clone https://github.com/arnauddsj/filestotext-app.git
+cd filestotext-app
+```
 
 2. Create a virtual environment (optional but recommended):
-   ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+```
 
 3. Install the required libraries:
-   ```
-   pip install PyQt5 openpyxl python-docx PyPDF2 pyinstaller
-   ```
+```bash
+pip install --upgrade pip
+pip install PyQt5 openpyxl python-docx PyPDF2 requests pyinstaller
+```
+
+For Apple Silicon Macs, use these commands instead:
+```bash
+pip install --upgrade pip
+pip uninstall PyQt5 PyQt5-sip
+pip install PyQt5-sip --no-binary :all:
+pip install PyQt5 --no-binary PyQt5
+pip install openpyxl python-docx PyPDF2 requests pyinstaller
+```
 
 ## Usage
-
 Run the script using Python:
-
-```
+```bash
 python filestotext.py
 ```
 
 The application will open with a graphical interface. From there, you can:
-
 1. Select an input folder
 2. Choose an output folder (optional)
 3. Specify files and directories to ignore
@@ -54,20 +62,25 @@ The application will open with a graphical interface. From there, you can:
 
 ## Compiling the App
 
-To create a standalone .app file on macOS:
+### For macOS (Intel and Apple Silicon):
+1. Make sure you have the required spec and entitlements files (included in the repository)
+2. Open Terminal and navigate to the directory containing your Python script:
+```bash
+cd /path/to/your/filestotext-app
+```
 
-1. Open Terminal and navigate to the directory containing your Python script:
-   ```
-   cd /path/to/your/filestotext-app
-   ```
+3. Run PyInstaller with the provided spec file:
+```bash
+pyinstaller --clean filestotext.spec
+```
 
-2. Run PyInstaller with the following command:
-   ```
-   pyinstaller --onefile --windowed filestotext.py
-   ```
+4. Once the process completes, you'll find your .app file in the `dist` directory.
+5. You can move the .app file to your Applications folder:
+```bash
+mv dist/filestotext.app /Applications/
+```
 
-3. Once the process completes, you'll find your .app file in the `dist` directory.
-
+Note: When running the app for the first time, macOS might show a security warning since the app isn't from the App Store. You'll need to go to System Settings > Privacy & Security and approve the app to run.
 ## Configuration
 
 The application allows you to configure the following settings through the GUI:
