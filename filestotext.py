@@ -10,7 +10,7 @@ import openpyxl
 from docx import Document
 import PyPDF2
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 class ClearableLineEdit(QWidget):
     def __init__(self, parent=None):
